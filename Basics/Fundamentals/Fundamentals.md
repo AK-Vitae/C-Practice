@@ -62,3 +62,13 @@ Example: printf("Hello, World!\n");
   - Integer: scanf("%d, &i");
   - Float: scanf("%f", &x);
 - Macro definition: #define VARIABLE_IN_CAPS 50
+
+
+
+## Selection Statements
+
+**Selection Statements:** if and switch 
+
+**Iteration Statements:** while, do, and for
+
+**Jump Statements:** break, continue, return, and goto
