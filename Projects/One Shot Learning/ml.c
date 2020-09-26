@@ -17,12 +17,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-// all methods declarations
-double** multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2);
-double** transposeMatrix(double** mat, int row, int col);
-double** inverseMatrix(double **matA, int dimension);
+// Prototypes
+double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2);
+double **transposeMatrix(double **mat, int row, int col);
+double **inverseMatrix(double **matA, int dimension);
+void printMatrix(double **matrix, int row, int column);
+void freeMemory(double **matrix, int row);
 
-// main method starts here
+// Driver
 int main(int argc, char** argv){
 
     // your code goes here
