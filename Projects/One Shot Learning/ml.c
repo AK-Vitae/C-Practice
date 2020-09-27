@@ -76,3 +76,12 @@ void printMatrix(double **matrix, int row, int column)
     printf("\n");
 }
 
+void freeMemory(double **matrix, int row)
+{
+    for (int i = 0; i < row; i++)
+    {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
+
