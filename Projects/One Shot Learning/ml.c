@@ -63,4 +63,16 @@ double** inverseMatrix(double **matA, int dimension)
 	return matI;
 }
 
+void printMatrix(double **matrix, int row, int column) 
+{
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < column; j++)
+        {
+            printf("%lf ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 
