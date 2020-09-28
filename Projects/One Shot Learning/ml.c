@@ -13,9 +13,9 @@
  * 					Y = Target vector
  * 
  */
- 
-#include<stdio.h>
-#include<stdlib.h>
+
+#include <stdio.h>
+#include <stdlib.h>
 
 // Prototypes
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2);
@@ -25,45 +25,49 @@ void printMatrix(double **matrix, int row, int column);
 void freeMemory(double **matrix, int row);
 
 // Driver
-int main(int argc, char** argv){
+int main(int argc, char **argv)
+{
 
-    // your code goes here
-	
-	return 0;
+    // Arguments not properly provided
+    if (argc < 3)
+    {
+        fprintf(stderr, "Error\nProper Usage: ./ml trainfilename.txt testfilename.txt\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return 0;
 }
 
-double** multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
+double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
 {
-    double** result=malloc(r1*sizeof(double*)); 
-    
+    double **result = malloc(r1 * sizeof(double *));
+
     // your code goes here
-    
+
     return result;
 }
 
-
-double** transposeMatrix(double** mat, int row, int col)
-{
-  
-	double** matTran=malloc(col*sizeof(double*)); 
-    
-    // your code goes here
-    
-    return matTran;        
-}
-
-
-double** inverseMatrix(double **matA, int dimension)
+double **transposeMatrix(double **mat, int row, int col)
 {
 
-    double** matI=malloc(dimension*sizeof(double*)); 
+    double **matTran = malloc(col * sizeof(double *));
 
     // your code goes here
-    
-	return matI;
+
+    return matTran;
 }
 
-void printMatrix(double **matrix, int row, int column) 
+double **inverseMatrix(double **matA, int dimension)
+{
+
+    double **matI = malloc(dimension * sizeof(double *));
+
+    // your code goes here
+
+    return matI;
+}
+
+void printMatrix(double **matrix, int row, int column)
 {
     for (int i = 0; i < row; i++)
     {
@@ -84,4 +88,3 @@ void freeMemory(double **matrix, int row)
     }
     free(matrix);
 }
-
