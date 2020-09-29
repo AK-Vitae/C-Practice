@@ -1,10 +1,10 @@
 /* 
  * 
- * This code calculates the house price of a house by learing from
+ * This code calculates the house price of a house by learning from
  * training data. It uses pseudo inverse of a given matrix to find the 
  * weight of different features.
  * 
- * Predicted Price : Y = W0 + W1*x1 + W2*X2 + W3*X3 + W4*X4
+ * Predicted Price : Y = W0 + W1*X1 + W2*X2 + W3*X3 + W4*X4
  * Weight Matrix : W = pseudoInv(X)*Y
  * pseudoInv(X) = inverse(transpose(X)*X) * transpose(X)  
  * 
@@ -24,10 +24,13 @@ double **inverseMatrix(double **matA, int dimension);
 void printMatrix(double **matrix, int row, int column);
 void freeMemory(double **matrix, int row);
 
-// Driver
+
+//gcc -Wall -fsanitize=address -o file* file*.c
+//gcc -Wall -Werror -fsanitize=address ml.c -o ml
+
+// main method starts here
 int main(int argc, char **argv)
 {
-
     // Arguments not properly provided
     if (argc < 3)
     {
@@ -35,7 +38,43 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    return 0;
+    // Read in Training Matrix Data //
+    int rowTrain, columnTrain;
+
+    FILE *fileTrain = fopen(argv[1], "r");
+
+    // File name supplied but fopen failed
+    if (fileTrain == NULL)
+    {
+        fprintf(stderr, "Error: Could not open \'%s\'", argv[1]);
+        exit(EXIT_FAILURE);
+    }
+
+    // Read in the number of attributes in the training data
+    fscanf(fileTrain, "%d \n", &columnTrain);
+    columnTrain++; // Account for the house price column in the training data
+    // Read in the number of training data examples
+    fscanf(fileTrain, "%d \n", &rowTrain);
+    
+    // Create Training Matrix
+    double **matrixTrain = (double **)malloc(rowTrain * sizeof(double *));
+    for (int i = 0; i < rowTrain; i++)
+    {
+        matrixTrain[i] = (double *)malloc(columnTrain * sizeof(double));
+    }
+    for (int i = 0; i < rowTrain; i++)
+    {
+        for (int j = 0; j < columnTrain; j++)
+        {
+            fscanf(fileTrain, "%lf,", &matrixTrain[i][j]);
+        }
+        fscanf(fileTrain, "\n");
+    }
+    fclose(fileTrain);
+
+    printMatrix(matrixTrain, rowTrain, columnTrain);
+
+    // Read in Testing Matrix Data //
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
@@ -67,7 +106,7 @@ double **inverseMatrix(double **matA, int dimension)
     return matI;
 }
 
-void printMatrix(double **matrix, int row, int column)
+void printMatrix(double **matrix, int row, int column) 
 {
     for (int i = 0; i < row; i++)
     {
