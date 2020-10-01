@@ -27,8 +27,9 @@ void freeMemory(double **matrix, int row);
 
 //gcc -Wall -fsanitize=address -o file* file*.c
 //gcc -Wall -Werror -fsanitize=address ml.c -o ml
+//./ml trainA.txt testA.txt
 
-// main method starts here
+// Driver
 int main(int argc, char **argv)
 {
     // Arguments not properly provided
@@ -73,8 +74,43 @@ int main(int argc, char **argv)
     fclose(fileTrain);
 
     printMatrix(matrixTrain, rowTrain, columnTrain);
+    freeMemory(matrixTrain, rowTrain);
 
     // Read in Testing Matrix Data //
+    int rowTest, columnTest;
+
+    FILE *fileTest = fopen(argv[2], "r");
+
+    // File name supplied but fopen failed
+    if (fileTest == NULL)
+    {
+        fprintf(stderr, "Error: Could not open \'%s\'", argv[2]);
+        exit(EXIT_FAILURE);
+    }
+
+    fscanf(fileTest, "%d \n", &rowTest);
+    columnTest = columnTrain - 1;
+
+    // Create Training Matrix
+    double **matrixTest = (double **)malloc(rowTest * sizeof(double *));
+
+    for (int i = 0; i < rowTest; i++)
+    {
+        matrixTest[i] = (double *)malloc(columnTest * sizeof(double));
+    }
+
+    for (int i = 0; i < rowTest; i++)
+    {
+        for (int j = 0; j < columnTest; j++)
+        {
+            fscanf(fileTest, "%lf,", &matrixTest[i][j]);
+        }
+        fscanf(fileTest, "\n");
+    }
+    fclose(fileTest);
+
+    printMatrix(matrixTest, rowTest, columnTest);
+    freeMemory(matrixTest, rowTest);
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
