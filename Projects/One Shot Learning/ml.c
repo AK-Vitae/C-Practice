@@ -117,7 +117,47 @@ int main(int argc, char **argv)
     printf("Columns: %d\n", columnTest);
     printMatrix(matrixTest, rowTest, columnTest);
     // freeMemory(matrixTest, rowTest);
-    
+
+    // Create Attribute Matrix: X, rowTrain, columnTrain
+    double **X = (double **)malloc(rowTrain * sizeof(double *));
+
+    for (int i = 0; i < rowTrain; i++)
+    {
+        X[i] = (double *)malloc(columnTrain * sizeof(double));
+    }
+
+    for (int i = 0; i < rowTrain; i++)
+    {
+        X[i][0] = 1;
+        for (int j = 1; j < columnTrain; j++)
+        {
+            X[i][j] = matrixTrain[i][j - 1];
+        }
+    }
+
+    printf("-------Attribute Matrix: X-------\n");
+    printf("Rows: %d\n", rowTrain);
+    printf("Columns: %d\n", columnTrain);
+    printMatrix(X, rowTrain, columnTrain);
+
+    // Create House Price Matrix: Y, rowTrain, 1
+    double **Y = (double **)malloc(rowTrain * sizeof(double *));
+
+    for (int i = 0; i < rowTrain; i++)
+    {
+        Y[i] = (double *)malloc(sizeof(double));
+    }
+
+    for (int i = 0; i < rowTrain; i++)
+    {
+        Y[i][0] = matrixTrain[i][columnTrain - 1];
+    }
+
+    printf("-------House Prices Matrix: Y-------\n");
+    printf("Rows: %d\n", rowTrain);
+    printf("Columns: 1\n");
+    printMatrix(Y, rowTrain, 1);
+
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
