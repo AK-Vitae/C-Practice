@@ -73,8 +73,11 @@ int main(int argc, char **argv)
     }
     fclose(fileTrain);
 
+    printf("-------Training Matrix-------\n");
+    printf("Rows: %d\n", rowTrain);
+    printf("Columns: %d\n", columnTrain);
     printMatrix(matrixTrain, rowTrain, columnTrain);
-    freeMemory(matrixTrain, rowTrain);
+    //freeMemory(matrixTrain, rowTrain);
 
     // Read in Testing Matrix Data //
     int rowTest, columnTest;
@@ -109,8 +112,12 @@ int main(int argc, char **argv)
     }
     fclose(fileTest);
 
+    printf("-------Testing Matrix-------\n");
+    printf("Rows: %d\n", rowTest);
+    printf("Columns: %d\n", columnTest);
     printMatrix(matrixTest, rowTest, columnTest);
-    freeMemory(matrixTest, rowTest);
+    // freeMemory(matrixTest, rowTest);
+    
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
@@ -124,10 +131,20 @@ double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, in
 
 double **transposeMatrix(double **mat, int row, int col)
 {
-
     double **matTran = malloc(col * sizeof(double *));
 
-    // your code goes here
+    for (int i = 0; i < col; i++)
+    {
+        matTran[i] = (double *)malloc(row * sizeof(double));
+    }
+
+    for (int i = 0; i < row; i++)
+    {
+        for (int j = 0; j < col; j++)
+        {
+            matTran[j][i] = mat[i][j];
+        }
+    }
 
     return matTran;
 }
