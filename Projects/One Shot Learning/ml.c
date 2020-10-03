@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     // Read in the number of training data examples
     fscanf(fileTrain, "%d \n", &rowTrain);
 
-    // Create Training Matrix
+    // Create Training Matrix: matrixTrain, rowTrain, columnTrain
     double **matrixTrain = (double **)malloc(rowTrain * sizeof(double *));
     for (int i = 0; i < rowTrain; i++)
     {
@@ -77,7 +77,6 @@ int main(int argc, char **argv)
     printf("Rows: %d\n", rowTrain);
     printf("Columns: %d\n", columnTrain);
     printMatrix(matrixTrain, rowTrain, columnTrain);
-    //freeMemory(matrixTrain, rowTrain);
 
     // Read in Testing Matrix Data //
     int rowTest, columnTest;
@@ -180,6 +179,15 @@ int main(int argc, char **argv)
     printf("Columns: %d\n", columnTrain);
     double **productTransposedY = multiplyMatrix(transposedX, Y, columnTrain, rowTrain, rowTrain, 1);
     printMatrix(productTransposedY, columnTrain, 1);
+
+
+    // Free remaining allocated memory
+    freeMemory(matrixTest, rowTest);
+    freeMemory(X, rowTrain);
+    freeMemory(Y, rowTrain);
+    freeMemory(transposedX, columnTrain);
+    freeMemory(productTransposedX, columnTrain);
+    freeMemory(productTransposedY, columnTrain);
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
@@ -191,9 +199,10 @@ double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, in
         return NULL;
     }
 
+    // Create 2d array of 0s
     double **result = calloc(r1, sizeof(double *));
 
-    // Create 2d array of 0s
+    
     for (int i = 0; i < r1; i++)
     {
         result[i] = (double *)calloc(c2, sizeof(double));
