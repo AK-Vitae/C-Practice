@@ -16,7 +16,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // Prototypes
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2);
