@@ -16,6 +16,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Prototypes
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2);
@@ -23,7 +24,6 @@ double **transposeMatrix(double **mat, int row, int col);
 double **inverseMatrix(double **matA, int dimension);
 void printMatrix(double **matrix, int row, int column);
 void freeMemory(double **matrix, int row);
-
 
 //gcc -Wall -fsanitize=address -o file* file*.c
 //gcc -Wall -Werror -fsanitize=address ml.c -o ml
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     columnTrain++; // Account for the house price column in the training data
     // Read in the number of training data examples
     fscanf(fileTrain, "%d \n", &rowTrain);
-    
+
     // Create Training Matrix
     double **matrixTrain = (double **)malloc(rowTrain * sizeof(double *));
     for (int i = 0; i < rowTrain; i++)
@@ -116,7 +116,6 @@ int main(int argc, char **argv)
     printf("Rows: %d\n", rowTest);
     printf("Columns: %d\n", columnTest);
     printMatrix(matrixTest, rowTest, columnTest);
-    // freeMemory(matrixTest, rowTest);
 
     // Create Attribute Matrix: X, rowTrain, columnTrain
     double **X = (double **)malloc(rowTrain * sizeof(double *));
@@ -158,6 +157,9 @@ int main(int argc, char **argv)
     printf("Columns: 1\n");
     printMatrix(Y, rowTrain, 1);
 
+    // Free training matrix as it is not required anymore
+    freeMemory(matrixTrain, rowTrain);
+
     // Transposed Attribute Matrix: Xt, columnTrain, rowTrain
     double **transposedX = transposeMatrix(X, rowTrain, columnTrain);
     printf("-------Attribute Matrix Transposed: Xt-------\n");
@@ -165,16 +167,48 @@ int main(int argc, char **argv)
     printf("Columns: %d\n", rowTrain);
     printMatrix(transposedX, columnTrain, rowTrain);
 
-    // Product Matrix of Xt and X: XtX
-
-
+    // Product Matrix of Xt and X: XtX, columnTrain, columnTrain
+    printf("-------Product Matrix of Xt and X: XtX-------\n");
+    printf("Rows: %d\n", columnTrain);
+    printf("Columns: %d\n", columnTrain);
+    double **productTransposedX = multiplyMatrix(transposedX, X, columnTrain, rowTrain, rowTrain, columnTrain);
+    printMatrix(productTransposedX, columnTrain, columnTrain);
+    
+    // Product Matrix of Xt and Y: XtY, columnTrain, 1 - Follow format above after finishing inverse
+    printf("-------Product Matrix of Xt and Y: XtY-------\n");
+    printf("Rows: %d\n", columnTrain);
+    printf("Columns: %d\n", columnTrain);
+    double **productTransposedY = multiplyMatrix(transposedX, Y, columnTrain, rowTrain, rowTrain, 1);
+    printMatrix(productTransposedY, columnTrain, 1);
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
 {
-    double **result = malloc(r1 * sizeof(double *));
+    // Error handling
+    if (c1 != r2)
+    {
+        printf("Error while trying to multiply matrices: The number of columns of the 1st matrix does equal the number of rows of the 2nd matrix.");
+        return NULL;
+    }
 
-    // your code goes here
+    double **result = calloc(r1, sizeof(double *));
+
+    // Create 2d array of 0s
+    for (int i = 0; i < r1; i++)
+    {
+        result[i] = (double *)calloc(c2, sizeof(double));
+    }
+
+    for (int i = 0; i < r1; i++)
+    {
+        for (int j = 0; j < c2; j++)
+        {
+            for (int k = 0; k < c1; k++)
+            {
+                result[i][j] += matA[i][k] * matB[k][j];
+            }
+        }
+    }
 
     return result;
 }
@@ -209,7 +243,7 @@ double **inverseMatrix(double **matA, int dimension)
     return matI;
 }
 
-void printMatrix(double **matrix, int row, int column) 
+void printMatrix(double **matrix, int row, int column)
 {
     for (int i = 0; i < row; i++)
     {
