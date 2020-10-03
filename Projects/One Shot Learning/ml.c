@@ -158,6 +158,16 @@ int main(int argc, char **argv)
     printf("Columns: 1\n");
     printMatrix(Y, rowTrain, 1);
 
+    // Transposed Attribute Matrix: Xt, columnTrain, rowTrain
+    double **transposedX = transposeMatrix(X, rowTrain, columnTrain);
+    printf("-------Attribute Matrix Transposed: Xt-------\n");
+    printf("Rows: %d\n", columnTrain);
+    printf("Columns: %d\n", rowTrain);
+    printMatrix(transposedX, columnTrain, rowTrain);
+
+    // Product Matrix of Xt and X: XtX
+
+
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
