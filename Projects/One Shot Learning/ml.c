@@ -20,7 +20,8 @@
 // Prototypes
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2);
 double **transposeMatrix(double **mat, int row, int col);
-double **inverseMatrix(double **matA, int dimension);
+double **identityMatrix(double **matA, int dimension);
+double **inverseMatrix(double **matA, double **identity, int dimension);
 void printMatrix(double **matrix, int row, int column);
 void freeMemory(double **matrix, int row);
 
@@ -125,7 +126,7 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < rowTrain; i++)
     {
-        X[i][0] = 1;
+        X[i][0] = 1.0;
         for (int j = 1; j < columnTrain; j++)
         {
             X[i][j] = matrixTrain[i][j - 1];
@@ -171,7 +172,7 @@ int main(int argc, char **argv)
     printf("Columns: %d\n", columnTrain);
     double **productTransposedX = multiplyMatrix(transposedX, X, columnTrain, rowTrain, rowTrain, columnTrain);
     printMatrix(productTransposedX, columnTrain, columnTrain);
-    
+
     // Product Matrix of Xt and Y: XtY, columnTrain, 1 - Follow format above after finishing inverse
     printf("-------Product Matrix of Xt and Y: XtY-------\n");
     printf("Rows: %d\n", columnTrain);
@@ -179,6 +180,12 @@ int main(int argc, char **argv)
     double **productTransposedY = multiplyMatrix(transposedX, Y, columnTrain, rowTrain, rowTrain, 1);
     printMatrix(productTransposedY, columnTrain, 1);
 
+    // Identity Matrix
+    printf("-------Identity Matrix-------\n");
+    printf("Rows: %d\n", columnTrain);
+    printf("Columns: %d\n", columnTrain);
+    double **identity = identityMatrix(productTransposedX, columnTrain);
+    printMatrix(identity, columnTrain, columnTrain);
 
     // Free remaining allocated memory
     freeMemory(matrixTest, rowTest);
@@ -187,6 +194,7 @@ int main(int argc, char **argv)
     freeMemory(transposedX, columnTrain);
     freeMemory(productTransposedX, columnTrain);
     freeMemory(productTransposedY, columnTrain);
+    freeMemory(identity, columnTrain);
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
@@ -199,9 +207,8 @@ double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, in
     }
 
     // Create 2d array of 0s
-    double **result = calloc(r1, sizeof(double *));
+    double **result = (double **)calloc(r1, sizeof(double *));
 
-    
     for (int i = 0; i < r1; i++)
     {
         result[i] = (double *)calloc(c2, sizeof(double));
@@ -223,7 +230,7 @@ double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, in
 
 double **transposeMatrix(double **mat, int row, int col)
 {
-    double **matTran = malloc(col * sizeof(double *));
+    double **matTran = (double **)malloc(col * sizeof(double *));
 
     for (int i = 0; i < col; i++)
     {
@@ -241,14 +248,27 @@ double **transposeMatrix(double **mat, int row, int col)
     return matTran;
 }
 
-double **inverseMatrix(double **matA, int dimension)
+double **identityMatrix(double **matA, int dimension)
 {
+    // Make identity matrix
+    double **identity = (double **)calloc(dimension, sizeof(double *));
 
-    double **matI = malloc(dimension * sizeof(double *));
+    for (int i = 0; i < dimension; i++)
+    {
+        identity[i] = (double *)calloc(dimension, sizeof(double));
+    }
 
-    // your code goes here
+    for (int i = 0; i < dimension; i++)
+    {
+        identity[i][i] = 1;
+    }
 
-    return matI;
+    return identity;
+}
+
+double **inverseMatrix(double **matA, double **identity, int dimension)
+{
+    return identity;
 }
 
 void printMatrix(double **matrix, int row, int column)
