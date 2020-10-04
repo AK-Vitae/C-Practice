@@ -194,7 +194,7 @@ double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, in
     // Error handling
     if (c1 != r2)
     {
-        printf("Error while trying to multiply matrices: The number of columns of the 1st matrix does equal the number of rows of the 2nd matrix.");
+        printf("Error while trying to multiply matrices: The number of columns of the 1st matrix does not equal the number of rows of the 2nd matrix.");
         return NULL;
     }
 
