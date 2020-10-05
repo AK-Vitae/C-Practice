@@ -25,9 +25,8 @@ double **inverseMatrix(double **matA, double **identity, int dimension);
 void printMatrix(double **matrix, int row, int column);
 void freeMemory(double **matrix, int row);
 
-//gcc -Wall -fsanitize=address -o file* file*.c
-//gcc -Wall -Werror -fsanitize=address ml.c -o ml
-//./ml trainA.txt testA.txt
+// Compile: gcc -Wall -Werror -fsanitize=address ml.c -o ml
+// Running with arguments: ./ml trainA.txt testA.txt
 
 // Driver
 int main(int argc, char **argv)
@@ -160,10 +159,10 @@ int main(int argc, char **argv)
     freeMemory(matrixTrain, rowTrain);
 
     // Transposed Attribute Matrix: Xt, columnTrain, rowTrain
-    double **transposedX = transposeMatrix(X, rowTrain, columnTrain);
     printf("-------Attribute Matrix Transposed: Xt-------\n");
     printf("Rows: %d\n", columnTrain);
     printf("Columns: %d\n", rowTrain);
+    double **transposedX = transposeMatrix(X, rowTrain, columnTrain);
     printMatrix(transposedX, columnTrain, rowTrain);
 
     // Product Matrix of Xt and X: XtX, columnTrain, columnTrain
@@ -173,19 +172,59 @@ int main(int argc, char **argv)
     double **productTransposedX = multiplyMatrix(transposedX, X, columnTrain, rowTrain, rowTrain, columnTrain);
     printMatrix(productTransposedX, columnTrain, columnTrain);
 
-    // Product Matrix of Xt and Y: XtY, columnTrain, 1 - Follow format above after finishing inverse
+    // Product Matrix of Xt and Y: XtY, columnTrain, 1
     printf("-------Product Matrix of Xt and Y: XtY-------\n");
     printf("Rows: %d\n", columnTrain);
-    printf("Columns: %d\n", columnTrain);
+    printf("Columns: %d\n", 1);
     double **productTransposedY = multiplyMatrix(transposedX, Y, columnTrain, rowTrain, rowTrain, 1);
     printMatrix(productTransposedY, columnTrain, 1);
 
-    // Identity Matrix
+    // Identity Matrix: identity, columnTrain, columnTrain
     printf("-------Identity Matrix-------\n");
     printf("Rows: %d\n", columnTrain);
     printf("Columns: %d\n", columnTrain);
     double **identity = identityMatrix(productTransposedX, columnTrain);
     printMatrix(identity, columnTrain, columnTrain);
+
+    // Inverse Matrix of XtX: inverse, columnTrain, columnTrain
+    printf("-------Inverse Matrix-------\n");
+    printf("Rows: %d\n", columnTrain);
+    printf("Columns: %d\n", columnTrain);
+    double **inverse = inverseMatrix(productTransposedX, identity, columnTrain);
+    printMatrix(inverse, columnTrain, columnTrain);
+
+    // Weights Matrix: W, 
+    printf("-------Weights Matrix-------\n");
+    printf("Rows: %d\n", columnTrain);
+    printf("Columns: %d\n", 1);
+    double **weights = multiplyMatrix(inverse, productTransposedY, columnTrain, columnTrain, columnTrain, 1);
+    printMatrix(weights, columnTrain, 1);
+
+    printf("-------Testing Matrix-------\n");
+    printf("Rows: %d\n", rowTest);
+    printf("Columns: %d\n", columnTest);
+    printMatrix(matrixTest, rowTest, columnTest);
+
+    // Calculate house prices - Modify
+    double temp;
+    double total = 0;
+    for (int i = 0; i < rowTest; i++)
+    {
+        for (int j = -1; j < (columnTrain - 1); j++)
+        {
+            if (j < 0)
+            {
+                total += weights[0][0];
+            }
+            else
+            {
+                total += weights[j + 1][0] * matrixTest[i][j];
+            }
+        }
+        temp = total;
+        printf ("%0.0lf \n", temp);
+        total = 0;
+    }
 
     // Free remaining allocated memory
     freeMemory(matrixTest, rowTest);
@@ -195,6 +234,10 @@ int main(int argc, char **argv)
     freeMemory(productTransposedX, columnTrain);
     freeMemory(productTransposedY, columnTrain);
     freeMemory(identity, columnTrain);
+    freeMemory(weights, columnTrain);
+    // gcc ml.c -o ml
+    // Compile: gcc -Wall -Werror -fsanitize=address ml.c -o ml
+    // Running with arguments: ./ml trainA.txt testA.txt
 }
 
 double **multiplyMatrix(double **matA, double **matB, int r1, int c1, int r2, int c2)
@@ -266,8 +309,70 @@ double **identityMatrix(double **matA, int dimension)
     return identity;
 }
 
+// MODIFY 
 double **inverseMatrix(double **matA, double **identity, int dimension)
 {
+    double constant;
+    double pivot;
+    //starting algorithm for inverse
+    //bottom triangle
+    for (int i = 0; i < dimension; i++)
+    {
+        for (int j = i; j < dimension; j++)
+        {
+            if (matA[j][i] != 1 && j == i)
+            {
+                //checking first colum
+                if (matA[j][i] != 0)
+                {
+                    constant = matA[j][i];
+                    for (int k = 0; k < dimension; k++)
+                    {
+                        matA[j][k] = matA[j][k] / constant;
+                        identity[j][k] = identity[j][k] / constant;
+                    }
+                }
+                else
+                {
+                    printf("\n something went wrong, there is a 0 in a pivot");
+                }
+            }
+            //now for the zeros below the pivot
+            else if (matA[j][i] != 0 && j != i)
+            {
+                pivot = matA[j][i];
+                for (int k = 0; k < dimension; k++)
+                {
+                    matA[j][k] = matA[j][k] - (pivot * matA[i][k]);
+                    identity[j][k] = identity[j][k] - (pivot * identity[i][k]);
+                }
+            }
+        }
+    }
+
+    //Top half of the triangle
+    for (int i = dimension - 1; i > -1; i--)
+    {
+        for (int j = i; j > -1; j--)
+        {
+            if (matA[j][i] != 1 && i == j)
+            {
+                constant = matA[j][i];
+                matA[j][i] = matA[j][i] / constant;
+                identity[j][i] = identity[j][i] / constant;
+            }
+            else if (matA[j][i] != 0 && i != j)
+            {
+                constant = matA[j][i];
+                for (int k = 0; k < dimension; k++)
+                {
+                    matA[j][k] = matA[j][k] - (matA[i][k]) * constant;
+                    identity[j][k] = identity[j][k] - (identity[i][k]) * constant;
+                }
+            }
+        }
+    }
+
     return identity;
 }
 
