@@ -90,7 +90,7 @@ int main(int argc, char **argv)
     }
 
     fscanf(fileTest, "%d \n", &rowTest);
-    columnTest = columnTrain - 1;
+    columnTest = columnTrain;
 
     // Create Training Matrix
     double **matrixTest = (double **)malloc(rowTest * sizeof(double *));
@@ -102,7 +102,8 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < rowTest; i++)
     {
-        for (int j = 0; j < columnTest; j++)
+        matrixTest[i][0] = 1.0;
+        for (int j = 1; j < columnTest; j++)
         {
             fscanf(fileTest, "%lf,", &matrixTest[i][j]);
         }
@@ -193,7 +194,7 @@ int main(int argc, char **argv)
     double **inverse = inverseMatrix(productTransposedX, identity, columnTrain);
     printMatrix(inverse, columnTrain, columnTrain);
 
-    // Weights Matrix: W, 
+    // Weights Matrix: W,
     printf("-------Weights Matrix-------\n");
     printf("Rows: %d\n", columnTrain);
     printf("Columns: %d\n", 1);
@@ -205,25 +206,16 @@ int main(int argc, char **argv)
     printf("Columns: %d\n", columnTest);
     printMatrix(matrixTest, rowTest, columnTest);
 
-    // Calculate house prices - Modify
-    double temp;
-    double total = 0;
+    // Calculate house prices
+    double housePrice = 0;
     for (int i = 0; i < rowTest; i++)
     {
-        for (int j = -1; j < (columnTrain - 1); j++)
+        for (int j = 0; j < columnTrain; j++)
         {
-            if (j < 0)
-            {
-                total += weights[0][0];
-            }
-            else
-            {
-                total += weights[j + 1][0] * matrixTest[i][j];
-            }
+            housePrice += weights[j][0] * matrixTest[i][j];
         }
-        temp = total;
-        printf ("%0.0lf \n", temp);
-        total = 0;
+        printf("%0.0lf \n", housePrice);
+        housePrice = 0;
     }
 
     // Free remaining allocated memory
@@ -309,7 +301,7 @@ double **identityMatrix(double **matA, int dimension)
     return identity;
 }
 
-// MODIFY 
+// MODIFY
 double **inverseMatrix(double **matA, double **identity, int dimension)
 {
     double constant;
