@@ -188,7 +188,7 @@ int main(int argc, char **argv)
     printMatrix(identity, columnTrain, columnTrain);
 
     // Inverse Matrix of XtX: inverse, columnTrain, columnTrain
-    printf("-------Inverse Matrix-------\n");
+    printf("-------Inverse Matrix XtX^-1-------\n");
     printf("Rows: %d\n", columnTrain);
     printf("Columns: %d\n", columnTrain);
     double **inverse = inverseMatrix(productTransposedX, identity, columnTrain);
@@ -301,66 +301,62 @@ double **identityMatrix(double **matA, int dimension)
     return identity;
 }
 
-// MODIFY
 double **inverseMatrix(double **matA, double **identity, int dimension)
 {
-    double constant;
-    double pivot;
-    //starting algorithm for inverse
-    //bottom triangle
+    // matA and identity matrix arguments will be used as the augmented matrix
+    double c;
+    double p;
+
     for (int i = 0; i < dimension; i++)
     {
         for (int j = i; j < dimension; j++)
         {
-            if (matA[j][i] != 1 && j == i)
+            if (matA[j][i] != 0 && j != i)
             {
-                //checking first colum
+                p = matA[j][i];
+                for (int k = 0; k < dimension; k++)
+                {
+                    matA[j][k] = matA[j][k] - (p * matA[i][k]);
+                    identity[j][k] = identity[j][k] - (p * identity[i][k]);
+                }
+            }
+            else if (matA[j][i] != 1 && j == i)
+            {
                 if (matA[j][i] != 0)
                 {
-                    constant = matA[j][i];
+                    c = matA[j][i];
                     for (int k = 0; k < dimension; k++)
                     {
-                        matA[j][k] = matA[j][k] / constant;
-                        identity[j][k] = identity[j][k] / constant;
+                        matA[j][k] = matA[j][k] / c;
+                        identity[j][k] = identity[j][k] / c;
                     }
                 }
                 else
                 {
-                    printf("\n something went wrong, there is a 0 in a pivot");
-                }
-            }
-            //now for the zeros below the pivot
-            else if (matA[j][i] != 0 && j != i)
-            {
-                pivot = matA[j][i];
-                for (int k = 0; k < dimension; k++)
-                {
-                    matA[j][k] = matA[j][k] - (pivot * matA[i][k]);
-                    identity[j][k] = identity[j][k] - (pivot * identity[i][k]);
+                    printf("Error: 0 in the pivot");
                 }
             }
         }
     }
 
-    //Top half of the triangle
     for (int i = dimension - 1; i > -1; i--)
     {
         for (int j = i; j > -1; j--)
         {
-            if (matA[j][i] != 1 && i == j)
+            if (matA[j][i] != 0 && i != j)
             {
-                constant = matA[j][i];
-                matA[j][i] = matA[j][i] / constant;
-                identity[j][i] = identity[j][i] / constant;
-            }
-            else if (matA[j][i] != 0 && i != j)
-            {
-                constant = matA[j][i];
+                c = matA[j][i];
                 for (int k = 0; k < dimension; k++)
                 {
-                    matA[j][k] = matA[j][k] - (matA[i][k]) * constant;
-                    identity[j][k] = identity[j][k] - (identity[i][k]) * constant;
+                    matA[j][k] = matA[j][k] - (c * matA[i][k]);
+                    identity[j][k] = identity[j][k] - (c * identity[i][k]);
                 }
+            }
+            else if (matA[j][i] != 1 && i == j)
+            {
+                c = matA[j][i];
+                matA[j][i] = matA[j][i] / c;
+                identity[j][i] = identity[j][i] / c;
             }
         }
     }
