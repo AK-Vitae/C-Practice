@@ -9,4 +9,13 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Error\nProper Usage: ./first testfilename.txt\n");
         exit(EXIT_FAILURE);
     }
+
+    FILE *file = fopen(argv[1], "r");
+
+    // File name supplied but fopen failed
+    if (file == NULL)
+    {
+        fprintf(stderr, "Error: Could not open \'%s\'", argv[1]);
+        exit(EXIT_FAILURE);
+    }
 }
