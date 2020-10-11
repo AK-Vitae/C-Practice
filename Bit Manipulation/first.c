@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 // Driver
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     // Arguments not properly provided
     if (argc < 2)
@@ -9,6 +10,8 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Error\nProper Usage: ./first testfilename.txt\n");
         exit(EXIT_FAILURE);
     }
+
+    int x;
 
     FILE *file = fopen(argv[1], "r");
 
@@ -18,4 +21,9 @@ int main(int argc, char* argv[])
         fprintf(stderr, "Error: Could not open \'%s\'", argv[1]);
         exit(EXIT_FAILURE);
     }
+
+    fscanf(file, "%d\n", &x);
+    printf("Value: %d\n", x);
+
+    fclose(file);
 }
