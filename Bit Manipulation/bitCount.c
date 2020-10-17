@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Prototypes
+int get(unsigned short int x, int n);
+void findParity(int n, int numberOfPairs);
+
 // Driver
 int main(int argc, char *argv[])
 {
@@ -17,7 +21,15 @@ int main(int argc, char *argv[])
     return EXIT_SUCCESS;
 }
 
-void evenOddParity(int n, int numberOfPairs)
+int get(unsigned short int x, int n)
+{
+    // printf("GET: ");
+    int temp = 1;
+    temp = temp << n;
+    return ((x & temp) && 1);
+}
+
+void findParity(int n, int numberOfPairs)
 {
     if (n % 2 == 0)
     {
