@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define SIZE 16
+#define SIZE 16 // 16bit
 
 // Prototypes
 int get(unsigned short int x, int n);
