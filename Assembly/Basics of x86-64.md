@@ -53,15 +53,19 @@ Cannot do memory-memory transfer with a single instruction
 
 ## Arithmetic Operations (Format: Source,Destination )
 
-| Operation | Computation        |
-| --------- | ------------------ |
-| addq      | Dest = Dest + Src  |
-| subq      | Dest = Dest - Src  |
-| imulq     | Dest = Dest * Src  |
-| salq      | Dest = Dest << Src |
-| sarq      | Dest = Dest >> Src |
-| shrq      | Dest = Dest >> Src |
-| xorq      | Dest = Dest ^ Src  |
-| andq      | Dest = Dest & Src  |
-| orq       | Dest = Dest \| Src |
+| Operation | Computation                          |
+| --------- | ------------------------------------ |
+| addq      | Destination = Destination + Source   |
+| subq      | Destination = Destination - Source   |
+| imulq     | Destination = Destination * Source   |
+| salq      | Destination = Destination << Source  |
+| sarq      | Destination = Destination >> Source  |
+| shrq      | Destination = Destination >> Source  |
+| xorq      | Destination = Destination ^ Source   |
+| andq      | Destination = Destination & SSourcec |
+| orq       | Destination = Destination \| Source  |
+| incq      | Destination = Destination + 1        |
+| decq      | Destination = Dest - 1               |
+| negq      | Destination = -Destination           |
+| notq      | Destination = ~Destination           |
 
