@@ -49,23 +49,27 @@ Cannot do memory-memory transfer with a single instruction
 ## leaq Source, Destination
 
 * Computing addresses without a memory reference
+* Memory will not be dereferenced
 * **leaq (%rdi,%rdi,2), %rax**
 
 ## Arithmetic Operations (Format: Source,Destination )
 
-| Operation | Computation                          |
-| --------- | ------------------------------------ |
-| addq      | Destination = Destination + Source   |
-| subq      | Destination = Destination - Source   |
-| imulq     | Destination = Destination * Source   |
-| salq      | Destination = Destination << Source  |
-| sarq      | Destination = Destination >> Source  |
-| shrq      | Destination = Destination >> Source  |
-| xorq      | Destination = Destination ^ Source   |
-| andq      | Destination = Destination & SSourcec |
-| orq       | Destination = Destination \| Source  |
-| incq      | Destination = Destination + 1        |
-| decq      | Destination = Dest - 1               |
-| negq      | Destination = -Destination           |
-| notq      | Destination = ~Destination           |
+| Operation                               | Computation                         |
+| --------------------------------------- | ----------------------------------- |
+| addq                                    | Destination = Destination + Source  |
+| subq                                    | Destination = Destination - Source  |
+| imulq (integer multiplication)          | Destination = Destination * Source  |
+| salq (Left Shift Operation)             | Destination = Destination << Source |
+| sarq (Right Shift Operation Arithmetic) | Destination = Destination >> Source |
+| shrq (Right Shift Operation Logical)    | Destination = Destination >> Source |
+| xorq                                    | Destination = Destination ^ Source  |
+| andq                                    | Destination = Destination & Source  |
+| orq                                     | Destination = Destination \| Source |
+| incq (Increment)                        | Destination = Destination + 1       |
+| decq (Decrement)                        | Destination = Destination - 1       |
+| negq (Negation)                         | Destination = -Destination          |
+| notq                                    | Destination = ~Destination          |
 
+"x<<y" = x*2^y^
+
+">>1" = divide by 2
