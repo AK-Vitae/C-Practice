@@ -45,3 +45,23 @@
 | sete | CF            | Below (unsigned)          |
 
 **movzbl Source, Destination** = moves source byte to destination and then zeros out everything higher than byte
+
+## Jumping
+
+Jump to different part of code depending on condition codes
+
+### jX Instructions
+
+| jX   | Condition     | Description               |
+| ---- | ------------- | ------------------------- |
+| jmp  | 1             | unconditional             |
+| je   | ZF            | Equal / Zero              |
+| jne  | ~ZF           | Not Equal / Not Zero      |
+| js   | SF            | Negative                  |
+| jns  | ~SF           | Nonnegative               |
+| jg   | ~(SF^OF)&~Z   | Greater (Signed)          |
+| jge  | ~(SF^OF)      | Greater or Equal (Signed) |
+| jl   | (SF^OF)       | Less (Signed)             |
+| jle  | (SF^OF) \| ZF | Less or Equal (Signed)    |
+| ja   | ~CF&~ZF       | Above (unsigned)          |
+| jb   | CF            | Below (unsigned)          |
