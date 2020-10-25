@@ -65,3 +65,7 @@ Jump to different part of code depending on condition codes
 | jle  | (SF^OF) \| ZF | Less or Equal (Signed)    |
 | ja   | ~CF&~ZF       | Above (unsigned)          |
 | jb   | CF            | Below (unsigned)          |
+
+**Direct Jump**: jmp .L8
+
+**Indirect Jump**: jmp *.L4(,%rdi,8) = jmp .L4 + x *8
