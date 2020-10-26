@@ -13,5 +13,14 @@
   * Increment %rsp by 8
   * Store value at Dest (must be register)
 
-* * 
+## Function Flow
+
+* Procedure call: **callq Function** - calls a function
+  * Push return address on stack
+  * Jump to label
+* Return address
+  * Address of the next instruction right after call
+* Procedure return: **ret**
+  * Pop address from stack
+  * Jump to address
 
