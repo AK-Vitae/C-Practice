@@ -15,6 +15,8 @@
 
 ## Function Flow
 
+**Control Flow:**
+
 * Procedure call: **callq Function** - calls a function
   * Push return address on stack
   * Jump to label
@@ -23,4 +25,16 @@
 * Procedure return: **ret**
   * Pop address from stack
   * Jump to address
+
+**Data Flow:** 
+
+* First 6 arguments to a function will go into:
+  * %rdi - 1st argument
+  * %rsi - &#8595;
+  * %rdx - &#8595;
+  * %rcx - &#8595;
+  * %r8 - &#8595;
+  * %r9 - 6th argument
+  * More than 6 arguments: Later arguments will be pushed onto the stack in reverse order (nth argument &#8594; 0th argument)
+* **Return value** will always be in **%rax**
 
