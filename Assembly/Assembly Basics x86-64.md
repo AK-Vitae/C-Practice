@@ -50,6 +50,7 @@ Cannot do memory-memory transfer with a single instruction
 
 * Computing addresses without a memory reference
 * Memory will not be dereferenced
+* Essentially provides pointer
 * **leaq (%rdi,%rdi,2), %rax**
 
 ## Arithmetic Operations (Format: Source,Destination )
