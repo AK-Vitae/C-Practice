@@ -38,3 +38,22 @@
   * More than 6 arguments: Later arguments will be pushed onto the stack in reverse order (nth argument &#8594; 0th argument)
 * **Return value** will always be in **%rax**
 
+## Function Local Data
+
+### Stack Frames
+
+* Contents
+  * Return information
+  * Local storage (if needed)
+  * Temporary space (if needed)
+* Management
+  * Space allocated when entering a function/procedure
+    * Need to set up code by shifting pointers around to correct location (Stack Pointer: %rsp, Frame Pointer: %rbp)
+    * Includes push by call instruction
+  * Deallocated  when return
+    * Clean code by shifting pointers back
+    * Includes pop by ret instruction
+* If function f calls function g then f is a caller and g is a callee
+* Set Up code: subq $N, %rsp = Allocate N bytes of space on the stack
+* Clean Up code:  addq $N, %rsp =  Give back N bytes of stack space
+
