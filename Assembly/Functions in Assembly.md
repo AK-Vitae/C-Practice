@@ -43,17 +43,56 @@
 ### Stack Frames
 
 * Contents
+
   * Return information
   * Local storage (if needed)
   * Temporary space (if needed)
+
 * Management
+
   * Space allocated when entering a function/procedure
     * Need to set up code by shifting pointers around to correct location (Stack Pointer: %rsp, Frame Pointer: %rbp)
     * Includes push by call instruction
   * Deallocated  when return
     * Clean code by shifting pointers back
     * Includes pop by ret instruction
-* If function f calls function g then f is a caller and g is a callee
+
 * Set Up code: subq $N, %rsp = Allocate N bytes of space on the stack
+
 * Clean Up code:  addq $N, %rsp =  Give back N bytes of stack space
+
+* If function f calls function g then f is a caller and g is a callee
+
+  * Caller Saved
+
+    * Caller saves temporary values in its frame before the call
+
+    * | Details                      | Register |
+      | ---------------------------- | -------- |
+      | **Return value**             | %rax     |
+      | **Arguments**                | %rdi     |
+      |                              | %rsi     |
+      |                              | %rdx     |
+      |                              | %rcx     |
+      |                              | %r8      |
+      |                              | %r9      |
+      | **Caller-saved temporaries** | %r10     |
+      |                              | %r11     |
+
+      
+
+  * Callee Saved
+
+    * Callee saves temporary values in its frame before using
+
+    * Callee restores them before returning to caller
+
+    * | Details                       | Register |
+      | ----------------------------- | -------- |
+      | **Callee-saved temporaries**  | %rbx     |
+      |                               | %r12     |
+      |                               | %r13     |
+      |                               | %r14     |
+      | **Point to regions of stack** | %rbp     |
+      |                               | %rsp     |
 
