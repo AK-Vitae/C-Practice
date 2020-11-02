@@ -10,10 +10,23 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    char lines[100][20];
+    
     int lineCount = 0;
+    char ch;
     FILE *file = fopen(argv[1], "r");
+    while ((ch = fgetc(file)) != EOF)
+    {
+        if (ch == '\n')
+        {
+            lineCount++;
+        }
+    }
+    char lines[lineCount][20];
 
-    fseek(file, 0, SEEK_END);
+    // Move file pointer to the start
+    fseek(file, 0, SEEK_SET);
+    
     fclose(file);
+
+    printf("Number of lines: %d", lineCount);
 }
