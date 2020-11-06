@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define MAXLINES 100
 #define MAXLINELENGTH 15
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
         int instructionLine = i + 1;
         if (n == 1)
         {
-            
+
             printf("Instruction %d: %s\n", instructionLine, instruction);
             if (strcmp(instruction, "read") == 0)
             {
@@ -76,21 +77,28 @@ int main(int argc, char *argv[])
                 char reg[2];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
-                if (strcmp(reg, "ax") == 0)
+                if (isdigit(atoi(reg)) == 0)
                 {
-                    printf("%d", ax);
+                    printf("%d", atoi(reg));
                 }
-                else if (strcmp(reg, "bx") == 0)
+                else
                 {
-                    printf("%d", bx);
-                }
-                else if (strcmp(reg, "cx") == 0)
-                {
-                    printf("%d", cx);
-                }
-                else if (strcmp(reg, "dx") == 0)
-                {
-                    printf("%d", dx);
+                    if (strcmp(reg, "ax") == 0)
+                    {
+                        printf("%d", ax);
+                    }
+                    else if (strcmp(reg, "bx") == 0)
+                    {
+                        printf("%d", bx);
+                    }
+                    else if (strcmp(reg, "cx") == 0)
+                    {
+                        printf("%d", cx);
+                    }
+                    else if (strcmp(reg, "dx") == 0)
+                    {
+                        printf("%d", dx);
+                    }
                 }
             }
         }
