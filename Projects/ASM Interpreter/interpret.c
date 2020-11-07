@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     // Carry out instructions
     for (int i = 0; i < lineCount; i++)
     {
-        char instruction[5];
+        char instruction[6];
         int n = sscanf(lines[i], "%s", instruction);
         int instructionLine = i + 1;
         if (n == 1)
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
             printf("Instruction %d: %s\n", instructionLine, instruction);
             if (strcmp(instruction, "read") == 0)
             {
-                char reg[2];
+                char reg[3];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
                 if (strcmp(reg, "ax") == 0)
@@ -74,10 +74,10 @@ int main(int argc, char *argv[])
             }
             else if (strcmp(instruction, "print") == 0)
             {
-                char reg[2];
+                char reg[3];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
-                if (isdigit(atoi(reg)) == 0)
+                if (isdigit(reg[0]) != 0)
                 {
                     printf("%d", atoi(reg));
                 }
