@@ -40,8 +40,8 @@ int main(int argc, char *argv[])
         int instructionLine = i + 1;
         if (n == 1)
         {
-
             printf("Instruction %d: %s\n", instructionLine, instruction);
+            // READ //
             if (strcmp(instruction, "read") == 0)
             {
                 char reg[3];
@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
                     printf(" Register Value: %d\n", dx);
                 }
             }
+            // PRINT //
             else if (strcmp(instruction, "print") == 0)
             {
                 char reg[3];
@@ -79,27 +80,56 @@ int main(int argc, char *argv[])
 
                 if (isdigit(reg[0]) != 0)
                 {
-                    printf("%d", atoi(reg));
+                    printf(" Printed: %d\n", atoi(reg));
                 }
                 else
                 {
                     if (strcmp(reg, "ax") == 0)
                     {
-                        printf("%d", ax);
+                        printf(" Printed: %d\n", ax);
                     }
                     else if (strcmp(reg, "bx") == 0)
                     {
-                        printf("%d", bx);
+                        printf(" Printed: %d\n", bx);
                     }
                     else if (strcmp(reg, "cx") == 0)
                     {
-                        printf("%d", cx);
+                        printf(" Printed: %d\n", cx);
                     }
                     else if (strcmp(reg, "dx") == 0)
                     {
-                        printf("%d", dx);
+                        printf(" Printed: %d\n", dx);
                     }
                 }
+            }
+            // JUMPS //
+            else if (strcmp(instruction, "jmp") == 0)
+            {
+
+            }
+            else if (strcmp(instruction, "je") == 0)
+            {
+
+            }
+            else if (strcmp(instruction, "jne") == 0)
+            {
+
+            }
+            else if (strcmp(instruction, "jg") == 0)
+            {
+
+            }
+            else if (strcmp(instruction, "jge") == 0)
+            {
+
+            }
+            else if (strcmp(instruction, "jl") == 0)
+            {
+
+            }
+            else if (strcmp(instruction, "jle") == 0)
+            {
+
             }
         }
         else
