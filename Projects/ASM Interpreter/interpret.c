@@ -6,6 +6,9 @@
 #define MAXLINES 100
 #define MAXLINELENGTH 15
 
+//Prototypes
+int whichRegister(char reg[]);
+
 int main(int argc, char *argv[])
 {
     int a = 'a' - 97;
@@ -150,6 +153,47 @@ int main(int argc, char *argv[])
                     //     printf(" Printed: %d\n", dx);
                     // }
                 }
+            }
+            // ARITHMETIC //
+            else if (strcmp(instruction, "add") == 0)
+            {
+                char reg1[3];
+                char reg2[3];
+                sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
+                if ((isdigit(reg1[0]) != 0))
+                {
+                    int condition = (reg2[0] - 97) + (reg2[1] - 120);
+                    switch (condition)
+                    {
+                    case 0:
+                        ax = ax + atoi(reg1);
+                        break;
+                    case 1:
+                        bx = bx + atoi(reg1);
+                        break;
+                    case 2:
+                        cx = cx + atoi(reg1);
+                        break;
+                    case 3:
+                        dx = dx + atoi(reg1);
+                        break;
+                    default:
+                        printf("Addition Error");
+                        break;
+                    }
+                }
+            }
+
+            else if (strcmp(instruction, "sub") == 0)
+            {
+            }
+
+            else if (strcmp(instruction, "mul") == 0)
+            {
+            }
+
+            else if (strcmp(instruction, "div") == 0)
+            {
             }
             // JUMPS //
             else if (strcmp(instruction, "jmp") == 0)
@@ -345,5 +389,32 @@ int main(int argc, char *argv[])
         {
             printf("Instruction %d: No operation\n", instructionLine);
         }
+    }
+}
+
+int whichRegister(char reg[])
+{
+    if ((isdigit(reg[0]) != 0))
+    {
+        return -1; // Integer Value
+    }
+    int condition = (reg[0] - 97) + (reg[1] - 120);
+    switch (condition)
+    {
+    case 0:
+        return 0; // ax
+        break;
+    case 1:
+        return 1; // bx
+        break;
+    case 2:
+        return 2; // cx
+        break;
+    case 3:
+        return 3; // dx
+        break;
+    default:
+        printf("ERROR in determining register type");
+        break;
     }
 }
