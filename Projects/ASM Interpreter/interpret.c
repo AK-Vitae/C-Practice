@@ -8,6 +8,16 @@
 
 int main(int argc, char *argv[])
 {
+    int a = 'a' - 97;
+    int b = 'b' - 97;
+    int c = 'c' - 97;
+    int d = 'd' - 97;
+    printf("a-97: %d\n", a);
+    printf("a-97: %d\n", b);
+    printf("a-97: %d\n", c);
+    printf("a-97: %d\n", d);
+    // Make if register method?
+
     // Arguments not properly provided
     if (argc < 2)
     {
@@ -47,30 +57,49 @@ int main(int argc, char *argv[])
                 char reg[3];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
-                if (strcmp(reg, "ax") == 0)
+                int condition = (reg[0] - 97) + (reg[1] - 120); // a = 97, b = 98, c = 99, d = 100, x = 120
+                switch (condition)
                 {
+                case 0:
                     scanf("%d", &ax);
-                    printf(" Register Name: %s\n", reg);
-                    printf(" Register Value: %d\n", ax);
-                }
-                else if (strcmp(reg, "bx") == 0)
-                {
+                    break;
+                case 1:
                     scanf("%d", &bx);
-                    printf(" Register Name: %s\n", reg);
-                    printf(" Register Value: %d\n", bx);
-                }
-                else if (strcmp(reg, "cx") == 0)
-                {
+                    break;
+                case 2:
                     scanf("%d", &cx);
-                    printf(" Register Name: %s\n", reg);
-                    printf(" Register Value: %d\n", cx);
-                }
-                else if (strcmp(reg, "dx") == 0)
-                {
+                    break;
+                case 3:
                     scanf("%d", &dx);
-                    printf(" Register Name: %s\n", reg);
-                    printf(" Register Value: %d\n", dx);
+                    break;
+                default:
+                    printf("Invalid register");
+                    break;
                 }
+                // if (strcmp(reg, "ax") == 0)
+                // {
+                //     scanf("%d", &ax);
+                //     printf(" Register Name: %s\n", reg);
+                //     printf(" Register Value: %d\n", ax);
+                // }
+                // else if (strcmp(reg, "bx") == 0)
+                // {
+                //     scanf("%d", &bx);
+                //     printf(" Register Name: %s\n", reg);
+                //     printf(" Register Value: %d\n", bx);
+                // }
+                // else if (strcmp(reg, "cx") == 0)
+                // {
+                //     scanf("%d", &cx);
+                //     printf(" Register Name: %s\n", reg);
+                //     printf(" Register Value: %d\n", cx);
+                // }
+                // else if (strcmp(reg, "dx") == 0)
+                // {
+                //     scanf("%d", &dx);
+                //     printf(" Register Name: %s\n", reg);
+                //     printf(" Register Value: %d\n", dx);
+                // }
             }
             // PRINT //
             else if (strcmp(instruction, "print") == 0)
@@ -78,28 +107,48 @@ int main(int argc, char *argv[])
                 char reg[3];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
+                // Use switch statement? with ASCII
                 if (isdigit(reg[0]) != 0)
                 {
                     printf(" Printed: %d\n", atoi(reg));
                 }
                 else
                 {
-                    if (strcmp(reg, "ax") == 0)
+                    int condition = (reg[0] - 97) + (reg[1] - 120);
+                    switch (condition)
                     {
+                    case 0:
                         printf(" Printed: %d\n", ax);
-                    }
-                    else if (strcmp(reg, "bx") == 0)
-                    {
+                        break;
+                    case 1:
                         printf(" Printed: %d\n", bx);
-                    }
-                    else if (strcmp(reg, "cx") == 0)
-                    {
+                        break;
+                    case 2:
                         printf(" Printed: %d\n", cx);
-                    }
-                    else if (strcmp(reg, "dx") == 0)
-                    {
+                        break;
+                    case 3:
                         printf(" Printed: %d\n", dx);
+                        break;
+                    default:
+                        printf("Output Error");
+                        break;
                     }
+                    // if (strcmp(reg, "ax") == 0)
+                    // {
+                    //     printf(" Printed: %d\n", ax);
+                    // }
+                    // else if (strcmp(reg, "bx") == 0)
+                    // {
+                    //     printf(" Printed: %d\n", bx);
+                    // }
+                    // else if (strcmp(reg, "cx") == 0)
+                    // {
+                    //     printf(" Printed: %d\n", cx);
+                    // }
+                    // else if (strcmp(reg, "dx") == 0)
+                    // {
+                    //     printf(" Printed: %d\n", dx);
+                    // }
                 }
             }
             // JUMPS //
@@ -127,6 +176,9 @@ int main(int argc, char *argv[])
             }
             else if (strcmp(instruction, "jle") == 0)
             {
+                //whichRegister:
+                //takes reg array and will return 0,1,2,3,4 which will be used in register switch case
+                // 4 = default = atoi(reg)
                 int jump;
                 char reg1[3];
                 char reg2[3];
