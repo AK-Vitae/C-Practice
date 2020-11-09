@@ -7,7 +7,7 @@
 #define MAXLINELENGTH 15
 
 //Prototypes
-int whichRegister(char reg[]);
+int getValue(char reg[], int ax, int bx, int cx, int dx);
 
 int main(int argc, char *argv[])
 {
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
                         printf(" Printed: %d\n", dx);
                         break;
                     default:
-                        printf("Output Error");
+                        printf("Print Error");
                         break;
                     }
                     // if (strcmp(reg, "ax") == 0)
@@ -154,46 +154,150 @@ int main(int argc, char *argv[])
                     // }
                 }
             }
+            // Move //
+            else if (strcmp(instruction, "mov") == 0)
+            {
+                char reg1[3];
+                char reg2[3];
+                sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+
+                int condition = (reg2[0] - 97) + (reg2[1] - 120);
+                switch (condition)
+                {
+                case 0:
+                    ax = x;
+                    break;
+                case 1:
+                    bx = x;
+                    break;
+                case 2:
+                    cx = x;
+                    break;
+                case 3:
+                    dx = x;
+                    break;
+                default:
+                    printf("Movement Error");
+                    break;
+                }
+            }
             // ARITHMETIC //
             else if (strcmp(instruction, "add") == 0)
             {
                 char reg1[3];
                 char reg2[3];
                 sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
-                if ((isdigit(reg1[0]) != 0))
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+
+                int condition = (reg2[0] - 97) + (reg2[1] - 120);
+                switch (condition)
                 {
-                    int condition = (reg2[0] - 97) + (reg2[1] - 120);
-                    switch (condition)
-                    {
-                    case 0:
-                        ax = ax + atoi(reg1);
-                        break;
-                    case 1:
-                        bx = bx + atoi(reg1);
-                        break;
-                    case 2:
-                        cx = cx + atoi(reg1);
-                        break;
-                    case 3:
-                        dx = dx + atoi(reg1);
-                        break;
-                    default:
-                        printf("Addition Error");
-                        break;
-                    }
+                case 0:
+                    ax = ax + x;
+                    break;
+                case 1:
+                    bx = bx + x;
+                    break;
+                case 2:
+                    cx = cx + x;
+                    break;
+                case 3:
+                    dx = dx + x;
+                    break;
+                default:
+                    printf("Addition Error");
+                    break;
                 }
             }
 
             else if (strcmp(instruction, "sub") == 0)
             {
+                char reg1[3];
+                char reg2[3];
+                sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+
+                int condition = (reg2[0] - 97) + (reg2[1] - 120);
+                switch (condition)
+                {
+                case 0:
+                    ax = ax - x;
+                    break;
+                case 1:
+                    bx = bx - x;
+                    break;
+                case 2:
+                    cx = cx - x;
+                    break;
+                case 3:
+                    dx = dx - x;
+                    break;
+                default:
+                    printf("Subtraction Error");
+                    break;
+                }
             }
 
             else if (strcmp(instruction, "mul") == 0)
             {
+                char reg1[3];
+                char reg2[3];
+                sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+
+                int condition = (reg2[0] - 97) + (reg2[1] - 120);
+                switch (condition)
+                {
+                case 0:
+                    ax = ax * x;
+                    break;
+                case 1:
+                    bx = bx * x;
+                    break;
+                case 2:
+                    cx = cx * x;
+                    break;
+                case 3:
+                    dx = dx * x;
+                    break;
+                default:
+                    printf("Mutliplication Error");
+                    break;
+                }
             }
 
             else if (strcmp(instruction, "div") == 0)
             {
+                char reg1[3];
+                char reg2[3];
+                sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+
+                int condition = (reg2[0] - 97) + (reg2[1] - 120);
+                switch (condition)
+                {
+                case 0:
+                    ax = x/ax;
+                    break;
+                case 1:
+                    bx = x/bx;
+                    break;
+                case 2:
+                    cx = x/cx;
+                    break;
+                case 3:
+                    dx = x/dx;
+                    break;
+                default:
+                    printf("Division Error");
+                    break;
+                }
             }
             // JUMPS //
             else if (strcmp(instruction, "jmp") == 0)
@@ -392,26 +496,26 @@ int main(int argc, char *argv[])
     }
 }
 
-int whichRegister(char reg[])
+int getValue(char reg[], int ax, int bx, int cx, int dx)
 {
     if ((isdigit(reg[0]) != 0))
     {
-        return -1; // Integer Value
+        return atoi(reg); // Integer Value
     }
     int condition = (reg[0] - 97) + (reg[1] - 120);
     switch (condition)
     {
     case 0:
-        return 0; // ax
+        return ax; // ax
         break;
     case 1:
-        return 1; // bx
+        return bx; // bx
         break;
     case 2:
-        return 2; // cx
+        return cx; // cx
         break;
     case 3:
-        return 3; // dx
+        return dx; // dx
         break;
     default:
         printf("ERROR in determining register type");
