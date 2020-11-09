@@ -283,16 +283,16 @@ int main(int argc, char *argv[])
                 switch (condition)
                 {
                 case 0:
-                    ax = x/ax;
+                    ax = x / ax;
                     break;
                 case 1:
-                    bx = x/bx;
+                    bx = x / bx;
                     break;
                 case 2:
-                    cx = x/cx;
+                    cx = x / cx;
                     break;
                 case 3:
-                    dx = x/dx;
+                    dx = x / dx;
                     break;
                 default:
                     printf("Division Error");
@@ -309,6 +309,19 @@ int main(int argc, char *argv[])
             }
             else if (strcmp(instruction, "je") == 0)
             {
+                int jump;
+                char reg1[3];
+                char reg2[3];
+                sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
+                printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+                int y = getValue(reg2, ax, bx, cx, dx);
+
+                if (x = y)
+                {
+                    i = jump - 1;
+                }
             }
             else if (strcmp(instruction, "jne") == 0)
             {
@@ -327,165 +340,178 @@ int main(int argc, char *argv[])
                 //whichRegister:
                 //takes reg array and will return 0,1,2,3,4 which will be used in register switch case
                 // 4 = default = atoi(reg)
+                //     int jump;
+                //     char reg1[3];
+                //     char reg2[3];
+                //     sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
+                //     printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+                //     if ((isdigit(reg1[0]) != 0) && (isdigit(reg2[0]) != 0))
+                //     {
+                //         if (atoi(reg1) <= atoi(reg2))
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((isdigit(reg1[0]) != 0))
+                //     {
+                //         if (strcmp(reg2, "ax") == 0)
+                //         {
+                //             if (atoi(reg1) <= ax)
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //         else if (strcmp(reg2, "bx") == 0)
+                //         {
+                //             if (atoi(reg1) <= bx)
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //         else if (strcmp(reg2, "cx") == 0)
+                //         {
+                //             if (atoi(reg1) <= cx)
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //         else if (strcmp(reg2, "dx") == 0)
+                //         {
+                //             if (atoi(reg1) <= dx)
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //     }
+                //     else if ((isdigit(reg2[0]) != 0))
+                //     {
+                //         if (strcmp(reg1, "ax") == 0)
+                //         {
+                //             printf("  reached here ax = %d <= 0, i = %d\n", ax, i);
+                //             if (ax <= atoi(reg2))
+                //             {
+                //                 i = jump - 1;
+                //                 printf("   Now i = %d\n", i);
+                //             }
+                //         }
+                //         else if (strcmp(reg1, "bx") == 0)
+                //         {
+                //             if (bx <= atoi(reg2))
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //         else if (strcmp(reg1, "cx") == 0)
+                //         {
+                //             if (cx <= atoi(reg2))
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //         else if (strcmp(reg1, "dx") == 0)
+                //         {
+                //             if (bx <= atoi(reg2))
+                //             {
+                //                 i = jump - 1;
+                //             }
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "bx") == 0))
+                //     {
+                //         if (ax <= bx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "cx") == 0))
+                //     {
+                //         if (ax <= cx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "dx") == 0))
+                //     {
+                //         if (ax <= dx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "ax") == 0))
+                //     {
+                //         if (bx <= ax)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "cx") == 0))
+                //     {
+                //         if (bx <= cx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "dx") == 0))
+                //     {
+                //         if (bx <= dx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "ax") == 0))
+                //     {
+                //         if (cx <= ax)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "bx") == 0))
+                //     {
+                //         if (cx <= bx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "dx") == 0))
+                //     {
+                //         if (cx <= dx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "ax") == 0))
+                //     {
+                //         if (dx <= ax)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "bx") == 0))
+                //     {
+                //         if (dx <= bx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
+                //     else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "cx") == 0))
+                //     {
+                //         if (dx <= cx)
+                //         {
+                //             i = jump - 1;
+                //         }
+                //     }
                 int jump;
                 char reg1[3];
                 char reg2[3];
                 sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
                 printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
-                if ((isdigit(reg1[0]) != 0) && (isdigit(reg2[0]) != 0))
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+                int y = getValue(reg2, ax, bx, cx, dx);
+
+                if (x <= y)
                 {
-                    if (atoi(reg1) <= atoi(reg2))
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((isdigit(reg1[0]) != 0))
-                {
-                    if (strcmp(reg2, "ax") == 0)
-                    {
-                        if (atoi(reg1) <= ax)
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                    else if (strcmp(reg2, "bx") == 0)
-                    {
-                        if (atoi(reg1) <= bx)
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                    else if (strcmp(reg2, "cx") == 0)
-                    {
-                        if (atoi(reg1) <= cx)
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                    else if (strcmp(reg2, "dx") == 0)
-                    {
-                        if (atoi(reg1) <= dx)
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                }
-                else if ((isdigit(reg2[0]) != 0))
-                {
-                    if (strcmp(reg1, "ax") == 0)
-                    {
-                        printf("  reached here ax = %d <= 0, i = %d\n", ax, i);
-                        if (ax <= atoi(reg2))
-                        {
-                            i = jump - 1;
-                            printf("   Now i = %d\n", i);
-                        }
-                    }
-                    else if (strcmp(reg1, "bx") == 0)
-                    {
-                        if (bx <= atoi(reg2))
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                    else if (strcmp(reg1, "cx") == 0)
-                    {
-                        if (cx <= atoi(reg2))
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                    else if (strcmp(reg1, "dx") == 0)
-                    {
-                        if (bx <= atoi(reg2))
-                        {
-                            i = jump - 1;
-                        }
-                    }
-                }
-                else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "bx") == 0))
-                {
-                    if (ax <= bx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "cx") == 0))
-                {
-                    if (ax <= cx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "dx") == 0))
-                {
-                    if (ax <= dx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "ax") == 0))
-                {
-                    if (bx <= ax)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "cx") == 0))
-                {
-                    if (bx <= cx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "dx") == 0))
-                {
-                    if (bx <= dx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "ax") == 0))
-                {
-                    if (cx <= ax)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "bx") == 0))
-                {
-                    if (cx <= bx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "dx") == 0))
-                {
-                    if (cx <= dx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "ax") == 0))
-                {
-                    if (dx <= ax)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "bx") == 0))
-                {
-                    if (dx <= bx)
-                    {
-                        i = jump - 1;
-                    }
-                }
-                else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "cx") == 0))
-                {
-                    if (dx <= cx)
-                    {
-                        i = jump - 1;
-                    }
+                    i = jump - 1;
                 }
             }
         }
