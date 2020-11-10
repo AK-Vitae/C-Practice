@@ -4,23 +4,13 @@
 #include <ctype.h>
 
 #define MAXLINES 100
-#define MAXLINELENGTH 15
+#define MAXLINELENGTH 20
 
 //Prototypes
 int getValue(char reg[], int ax, int bx, int cx, int dx);
 
 int main(int argc, char *argv[])
 {
-    int a = 'a' - 97;
-    int b = 'b' - 97;
-    int c = 'c' - 97;
-    int d = 'd' - 97;
-    printf("a-97: %d\n", a);
-    printf("a-97: %d\n", b);
-    printf("a-97: %d\n", c);
-    printf("a-97: %d\n", d);
-    // Make if register method?
-
     // Arguments not properly provided
     if (argc < 2)
     {
@@ -34,7 +24,7 @@ int main(int argc, char *argv[])
     FILE *file = fopen(argv[1], "r");
     while (fgets(lines[lineCount], MAXLINELENGTH, file))
     {
-        lines[lineCount][strlen(lines[lineCount]) - 1] = '\0';
+        lines[lineCount][strlen(lines[lineCount])] = '\0';
         lineCount++;
     }
     fclose(file);
@@ -53,11 +43,11 @@ int main(int argc, char *argv[])
         int instructionLine = i;
         if (n == 1)
         {
-            printf("Instruction %d: %s\n", instructionLine, instruction);
+            // printf("Instruction %d: %s\n", instructionLine, instruction);
             // READ //
             if (strcmp(instruction, "read") == 0)
             {
-                char reg[3];
+                char reg[10];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
                 int condition = (reg[0] - 97) + (reg[1] - 120); // a = 97, b = 98, c = 99, d = 100, x = 120
@@ -79,41 +69,18 @@ int main(int argc, char *argv[])
                     printf("Invalid register");
                     break;
                 }
-                // if (strcmp(reg, "ax") == 0)
-                // {
-                //     scanf("%d", &ax);
-                //     printf(" Register Name: %s\n", reg);
-                //     printf(" Register Value: %d\n", ax);
-                // }
-                // else if (strcmp(reg, "bx") == 0)
-                // {
-                //     scanf("%d", &bx);
-                //     printf(" Register Name: %s\n", reg);
-                //     printf(" Register Value: %d\n", bx);
-                // }
-                // else if (strcmp(reg, "cx") == 0)
-                // {
-                //     scanf("%d", &cx);
-                //     printf(" Register Name: %s\n", reg);
-                //     printf(" Register Value: %d\n", cx);
-                // }
-                // else if (strcmp(reg, "dx") == 0)
-                // {
-                //     scanf("%d", &dx);
-                //     printf(" Register Name: %s\n", reg);
-                //     printf(" Register Value: %d\n", dx);
-                // }
             }
             // PRINT //
             else if (strcmp(instruction, "print") == 0)
             {
-                char reg[3];
+                char reg[10];
                 sscanf(lines[i], "%s %s", instruction, reg);
 
-                // Use switch statement? with ASCII
                 if (isdigit(reg[0]) != 0)
                 {
-                    printf(" Printed: %d\n", atoi(reg));
+                    int value;
+                    sscanf(reg, "%d", &value);
+                    printf("%d", value);
                 }
                 else
                 {
@@ -121,44 +88,28 @@ int main(int argc, char *argv[])
                     switch (condition)
                     {
                     case 0:
-                        printf(" Printed: %d\n", ax);
+                        printf("%d", ax);
                         break;
                     case 1:
-                        printf(" Printed: %d\n", bx);
+                        printf("%d", bx);
                         break;
                     case 2:
-                        printf(" Printed: %d\n", cx);
+                        printf("%d", cx);
                         break;
                     case 3:
-                        printf(" Printed: %d\n", dx);
+                        printf("%d", dx);
                         break;
                     default:
                         printf("Print Error");
                         break;
                     }
-                    // if (strcmp(reg, "ax") == 0)
-                    // {
-                    //     printf(" Printed: %d\n", ax);
-                    // }
-                    // else if (strcmp(reg, "bx") == 0)
-                    // {
-                    //     printf(" Printed: %d\n", bx);
-                    // }
-                    // else if (strcmp(reg, "cx") == 0)
-                    // {
-                    //     printf(" Printed: %d\n", cx);
-                    // }
-                    // else if (strcmp(reg, "dx") == 0)
-                    // {
-                    //     printf(" Printed: %d\n", dx);
-                    // }
                 }
             }
             // Move //
             else if (strcmp(instruction, "mov") == 0)
             {
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
@@ -186,8 +137,8 @@ int main(int argc, char *argv[])
             // ARITHMETIC //
             else if (strcmp(instruction, "add") == 0)
             {
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
@@ -215,8 +166,8 @@ int main(int argc, char *argv[])
 
             else if (strcmp(instruction, "sub") == 0)
             {
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
@@ -244,8 +195,8 @@ int main(int argc, char *argv[])
 
             else if (strcmp(instruction, "mul") == 0)
             {
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
@@ -273,8 +224,8 @@ int main(int argc, char *argv[])
 
             else if (strcmp(instruction, "div") == 0)
             {
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %s %s", instruction, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
@@ -304,16 +255,16 @@ int main(int argc, char *argv[])
             {
                 int jump;
                 sscanf(lines[i], "%s %d", instruction, &jump);
-                printf(" Jumped to line %d\n", jump);
+                // printf(" Jumped to line %d\n", jump);
                 i = jump - 1;
             }
             else if (strcmp(instruction, "je") == 0)
             {
                 int jump;
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
-                printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+                // printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
                 int y = getValue(reg2, ax, bx, cx, dx);
@@ -325,186 +276,75 @@ int main(int argc, char *argv[])
             }
             else if (strcmp(instruction, "jne") == 0)
             {
+                int jump;
+                char reg1[10];
+                char reg2[10];
+                sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
+                // printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+                int y = getValue(reg2, ax, bx, cx, dx);
+
+                if (x != y)
+                {
+                    i = jump - 1;
+                }
             }
             else if (strcmp(instruction, "jg") == 0)
             {
+                int jump;
+                char reg1[10];
+                char reg2[10];
+                sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
+                // printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+                int y = getValue(reg2, ax, bx, cx, dx);
+
+                if (x > y)
+                {
+                    i = jump - 1;
+                }
             }
             else if (strcmp(instruction, "jge") == 0)
             {
+                int jump;
+                char reg1[10];
+                char reg2[10];
+                sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
+                // printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+                int y = getValue(reg2, ax, bx, cx, dx);
+
+                if (x >= y)
+                {
+                    i = jump - 1;
+                }
             }
             else if (strcmp(instruction, "jl") == 0)
             {
+                int jump;
+                char reg1[10];
+                char reg2[10];
+                sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
+                // printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+
+                int x = getValue(reg1, ax, bx, cx, dx);
+                int y = getValue(reg2, ax, bx, cx, dx);
+
+                if (x < y)
+                {
+                    i = jump - 1;
+                }
             }
             else if (strcmp(instruction, "jle") == 0)
             {
-                //whichRegister:
-                //takes reg array and will return 0,1,2,3,4 which will be used in register switch case
-                // 4 = default = atoi(reg)
-                //     int jump;
-                //     char reg1[3];
-                //     char reg2[3];
-                //     sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
-                //     printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
-                //     if ((isdigit(reg1[0]) != 0) && (isdigit(reg2[0]) != 0))
-                //     {
-                //         if (atoi(reg1) <= atoi(reg2))
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((isdigit(reg1[0]) != 0))
-                //     {
-                //         if (strcmp(reg2, "ax") == 0)
-                //         {
-                //             if (atoi(reg1) <= ax)
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //         else if (strcmp(reg2, "bx") == 0)
-                //         {
-                //             if (atoi(reg1) <= bx)
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //         else if (strcmp(reg2, "cx") == 0)
-                //         {
-                //             if (atoi(reg1) <= cx)
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //         else if (strcmp(reg2, "dx") == 0)
-                //         {
-                //             if (atoi(reg1) <= dx)
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //     }
-                //     else if ((isdigit(reg2[0]) != 0))
-                //     {
-                //         if (strcmp(reg1, "ax") == 0)
-                //         {
-                //             printf("  reached here ax = %d <= 0, i = %d\n", ax, i);
-                //             if (ax <= atoi(reg2))
-                //             {
-                //                 i = jump - 1;
-                //                 printf("   Now i = %d\n", i);
-                //             }
-                //         }
-                //         else if (strcmp(reg1, "bx") == 0)
-                //         {
-                //             if (bx <= atoi(reg2))
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //         else if (strcmp(reg1, "cx") == 0)
-                //         {
-                //             if (cx <= atoi(reg2))
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //         else if (strcmp(reg1, "dx") == 0)
-                //         {
-                //             if (bx <= atoi(reg2))
-                //             {
-                //                 i = jump - 1;
-                //             }
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "bx") == 0))
-                //     {
-                //         if (ax <= bx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "cx") == 0))
-                //     {
-                //         if (ax <= cx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "ax") == 0) && (strcmp(reg2, "dx") == 0))
-                //     {
-                //         if (ax <= dx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "ax") == 0))
-                //     {
-                //         if (bx <= ax)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "cx") == 0))
-                //     {
-                //         if (bx <= cx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "bx") == 0) && (strcmp(reg2, "dx") == 0))
-                //     {
-                //         if (bx <= dx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "ax") == 0))
-                //     {
-                //         if (cx <= ax)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "bx") == 0))
-                //     {
-                //         if (cx <= bx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "cx") == 0) && (strcmp(reg2, "dx") == 0))
-                //     {
-                //         if (cx <= dx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "ax") == 0))
-                //     {
-                //         if (dx <= ax)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "bx") == 0))
-                //     {
-                //         if (dx <= bx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
-                //     else if ((strcmp(reg1, "dx") == 0) && (strcmp(reg2, "cx") == 0))
-                //     {
-                //         if (dx <= cx)
-                //         {
-                //             i = jump - 1;
-                //         }
-                //     }
                 int jump;
-                char reg1[3];
-                char reg2[3];
+                char reg1[10];
+                char reg2[10];
                 sscanf(lines[i], "%s %d %s %s", instruction, &jump, reg1, reg2);
-                printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
+                // printf(" Jumped to line %d, %s %s\n", jump, reg1, reg2);
 
                 int x = getValue(reg1, ax, bx, cx, dx);
                 int y = getValue(reg2, ax, bx, cx, dx);
@@ -517,7 +357,7 @@ int main(int argc, char *argv[])
         }
         else
         {
-            printf("Instruction %d: No operation\n", instructionLine);
+            // printf("Instruction %d: No operation\n", instructionLine);
         }
     }
 }
@@ -526,7 +366,9 @@ int getValue(char reg[], int ax, int bx, int cx, int dx)
 {
     if ((isdigit(reg[0]) != 0))
     {
-        return atoi(reg); // Integer Value
+        int value;
+        sscanf(reg, "%d", &value);
+        return value; // Integer Value
     }
     int condition = (reg[0] - 97) + (reg[1] - 120);
     switch (condition)
