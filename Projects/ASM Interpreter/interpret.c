@@ -319,7 +319,7 @@ int getValue(char reg[], int ax, int bx, int cx, int dx)
         return dx; // dx
         break;
     default:
-        printf("ERROR in determining register type");
+        printf("ERROR in determining register value");
         break;
     }
 }
