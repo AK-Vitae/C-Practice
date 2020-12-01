@@ -32,7 +32,7 @@ void freeMemory(double **matrix, int row);
 int main(int argc, char **argv)
 {
     // Arguments not properly provided
-    if (argc < 3)
+    if (argc != 3)
     {
         fprintf(stderr, "Error\nProper Usage: ./ml trainfilename.txt testfilename.txt\n");
         exit(EXIT_FAILURE);
