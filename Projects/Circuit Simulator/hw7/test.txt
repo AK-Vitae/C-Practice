@@ -1,0 +1,16 @@
+INPUTVAR 16 A B C D E F G H I J K L M N O P
+OUTPUTVAR 1 X
+AND A B a
+AND C D b
+OR E F c
+OR G H d
+AND J K h
+NOR L M i
+XOR N O j
+XOR a b e
+XOR c d f
+XOR e f g
+AND I P k
+XOR h i l
+NOR j k m
+XOR l m X
